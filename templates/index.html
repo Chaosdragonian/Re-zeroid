@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Rezeroid - Android Deobfuscation service</title>
+
+    <!-- Bootstrap Core CSS --> 
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+
+    <!-- Theme CSS -->
+    <link href="{{ url_for('static', filename='css/agency.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tomorrow-night-bright.css') }}"> 
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+{% if 'casename' in session %}
+<body ng-app="myApp" ng-controller="myCtrl" id="page-top" class="index" ng-init="Casename='{{ session['casename'] }}';">
+{% else %}
+<body ng-app="myApp" ng-controller="myCtrl" id="page-top" class="index" ng-init="Casename='Nothing';">
+{% endif %}
+    <!-- Navigation -->
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Rezeroid</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#introduction">Introduction</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#portfolio">Services</a>
+                    </li>
+                    {% if 'userid' in session %}
+                    <li><a class="page-scroll" href="{{url_for('logout')}}">logout</a></li>
+                    {% else %}
+                    <li>
+                        <a class="page-scroll" href="#login">Login</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#register">Register</a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <a class="page-scroll" href="#team">Team</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-lead-in">Welcome To Our Service!</div>
+                <div class="intro-heading">Our service Provide Android Deobfuscation</div>
+                <div class="form-group">
+                    <form name="form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                        <div class="row">
+                            <div class="col-xs-6 center-block">
+                                <div class="form-group">
+                                    <label class="btn btn-xl">
+                                        Browse <input type="file" id="file" name="file" style="display: none;">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 center-block">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-xl">Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Services Introduction Section -->
+    <section id="introduction">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Our Services</h2>
+                    <h3 class="section-subheading text-muted">Provide Service.</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-android fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Android Deobfuscation Service</h4>
+                    <p class="text-muted">Our Team provide Android Deobfuscation Service(Code View)</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-search fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Analyze Service</h4>
+                    <p class="text-muted">Our Service provide Android App's Artifact Service.</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fa fa-history fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">History Service </h4>
+                    <p class="text-muted">If you register, We save your analysis history and provide it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Grid Section -->
+    <section id="portfolio" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Services</h2>
+                    <h3 class="section-subheading text-muted">Service list</h3>
+                </div>
+            </div>
+            {% if 'userid' in session %}
+            <div class="row">
+                <div class="col-md-4 col-sm-12 portfolio-item">
+                    <a href="#CodeViewModal" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-plus fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="{{ url_for('static', filename='img/icons/android.png') }}" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Deobfuscation Code View</h4>
+                        <p class="text-muted">Code View</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 portfolio-item">
+                    <a href="#ArtifactModal" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-plus fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="{{ url_for('static', filename='img/icons/evidence.png') }}" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Get Artifact Report</h4>
+                        <p class="text-muted">Artifact Report</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 portfolio-item">
+                    <a href="#HistoryModal" class="portfolio-link" data-toggle="modal">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-plus fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="{{ url_for('static', filename='img/icons/history.png') }}" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>History Page</h4>
+                        <p class="text-muted">History Page</p>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="row">
+                <div class="col-md-6 col-sm-12 portfolio-item">
+                    <a href="#CodeViewModal" class="portfolio-link" data-toggle="modal" ng-click="getData()">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-plus fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="{{ url_for('static', filename='img/icons/android.png') }}" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Deobfuscation Code View</h4>
+                        <p class="text-muted">Code View</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 portfolio-item">
+                    <a href="#ArtifactModal" class="portfolio-link" data-toggle="modal" ng-click="GetArtifact()">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-plus fa-3x"></i>
+                            </div>
+                        </div>
+                        <img src="{{ url_for('static', filename='img/icons/evidence.png') }}" class="img-responsive" alt="">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>Get Artifact Report</h4>
+                        <p class="text-muted">Artifact Report</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+
+
+    {% if 'userid' not in session %}
+    <!-- Login Section -->
+    <section id="login">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Login</h2>
+                    <h3 class="section-subheading text-muted">Please Login</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <form  action="{{ url_for('login') }}" method="POST" name="sentMessage" id="LoginForm" novalidate>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="email" name="userid" id="userid" class="form-control" placeholder="Your Email *" required data-validation-required-message="Please enter your email address.">
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password"  name="userpass"  id="userpass" class="form-control" placeholder="Your password" required data-validation-required-message="Please enter your password.">
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-lg-12 text-center">
+                                <div id="success"></div>
+                                <button type="submit" class="btn btn-xl">Login</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>    
+
+    <!-- Register Section -->
+    <section id="register">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Register</h2>
+                    <h3 class="section-subheading text-muted">Register your account</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <form  action="{{ url_for('register') }}" method="POST" name="sentMessage" id="RegisterForm" novalidate>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="email" name="userid" id="userid" class="form-control" placeholder="Your Email *" required data-validation-required-message="Please enter your email address.">
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password"  name="userpass"  id="userpass" class="form-control" placeholder="Your password" required data-validation-required-message="Please enter your password.">
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-lg-12 text-center">
+                                <div id="success"></div>
+                                <button type="submit" class="btn btn-xl">Register</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>    
+    {% endif %}
+
+
+    <!-- Team Section -->
+    <section id="team" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Our BOB Team</h2>
+                    <h3 class="section-subheading text-muted">It's Good For you.</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-md-6">
+                    <div class="team-member">
+                        <img src="img/team/1.jpg" class="img-responsive img-circle" alt="">
+                        <h4>Hyun Seok Lee</h4>
+                        <p class="text-muted">Project Manager</p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-6">
+                    <div class="team-member">
+                        <img src="img/team/2.jpg" class="img-responsive img-circle" alt="">
+                        <h4>Gyoung won Lee</h4>
+                        <p class="text-muted">Project Leader</p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-6">
+                    <div class="team-member">
+                        <img src="img/team/3.jpg" class="img-responsive img-circle" alt="">
+                        <h4>Man seop sim</h4>
+                        <p class="text-muted">FrontEnd Developer</p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4  col-md-6">
+                    <div class="team-member">
+                        <img src="img/team/3.jpg" class="img-responsive img-circle" alt="">
+                        <h4>Gee hyun Lee</h4>
+                        <p class="text-muted">BackEnd Deobfuscation Module Developer</p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4  col-md-6">
+                    <div class="team-member">
+                        <img src="img/team/3.jpg" class="img-responsive img-circle" alt="">
+                        <h4>Shyung jun Jyu</h4>
+                        <p class="text-muted">Engine Developer </p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4  col-md-6">
+                    <div class="team-member">
+                        <img src="img/team/3.jpg" class="img-responsive img-circle" alt="">
+                        <h4>Doh yoong Lee</h4>
+                        <p class="text-muted">????????????</p>
+                        <ul class="list-inline social-buttons">
+                            <li><a href="#"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <p class="large text-muted">Our Team Introduction</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Contact Us</h2>
+                    <h3 class="section-subheading text-muted">Contact it!</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <form name="sentMessage" id="contactForm" novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Your Name *" id="name" required data-validation-required-message="Please enter your name.">
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="Your Email *" id="email" required data-validation-required-message="Please enter your email address.">
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" class="form-control" placeholder="Your Phone *" id="phone" required data-validation-required-message="Please enter your phone number.">
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <textarea class="form-control" placeholder="Your Message *" id="message" required data-validation-required-message="Please enter a message."></textarea>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-lg-12 text-center">
+                                <div id="success"></div>
+                                <button type="submit" class="btn btn-xl">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="copyright">Copyright &copy; BOB 5th Rezeroid 2016</span>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline social-buttons">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline quicklinks">
+                        <li><a href="#">Privacy Policy</a>
+                        </li>
+                        <li><a href="#">Terms of Use</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Portfolio Modals -->
+    <!-- Use the modals below to showcase details about your portfolio projects! -->
+
+    <!-- Code Modal -->
+    <div class="portfolio-modal modal fade" id="CodeViewModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="modal-body">
+                                <!-- Project Details Go Here -->
+                                <h2>Code View</h2>
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-4 text-left">
+                                            <div id="tree">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8 text-left">
+                                            <div id="snippet">
+                                            <pre>
+                                            <code class="java" ng-bind="CodeString">
+                                            </code>
+                                            </pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ArtifactModal -->
+    <div class="portfolio-modal modal fade" id="ArtifactModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2">
+                            <div class="modal-body">
+                                <h2>Artifact Report</h2>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <table class="">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <h4 ng-bind="apkname"></h4>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <table class="table table-bordered table-invoice">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="width10">
+                                                        Case ID:
+                                                    </td>
+                                                    <td class="width20">
+                                                        <strong ng-bind="case_name"></strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        FileName:
+                                                    </td>
+                                                    <td>
+                                                        <strong ng-bind="apkname">asdasd</strong>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        FileSize:
+                                                    </td>
+                                                    <td>
+                                                        <strong ng-bind="apksize">asdasd</strong>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h4 class="text-left">Hash Value</h4>
+                                                <p class="text-left">
+                                                해당 어플리케이션의 Hash 값을 나타내주는 항목입니다.
+                                                MD5 값과 SHA1 값이 표시됩니다.
+                                                </p>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered table-invoice text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="width50">
+                                                                <strong>Hash</strong>
+                                                            </th>
+                                                            <th class="width50">
+                                                                <strong>Value</strong>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                MD5
+                                                            </td>
+                                                            <td>
+                                                                <strong ng-bind="md5"></strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                SHA1
+                                                            </td>
+                                                            <td>
+                                                                <strong ng-bind="sha1"></strong>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                             <div class="col-md-12">
+                                                <h4 class="text-left">Email</h4>
+                                                <p class="text-left">
+                                                해당 안드로이드 어플리케이션 DEX(안드로이드 소스코드)에 포함된 
+                                                이메일 주소의 목록을 나타낸 항목입니다. 
+                                                </p>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered table-invoice text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="width100">
+                                                                <strong>Email</strong>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="email in emails track by $index">
+                                                            <td>
+                                                                <a href="#" ng-bind="email"></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <h4 class="text-left">IP</h4>
+                                                <p class="text-left">
+                                                해당 안드로이드 어플리케이션 DEX(안드로이드 소스코드)에 포함된 
+                                                IP 주소들의 목록을 나타낸 항목입니다. 
+                                                </p>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered table-invoice text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="width100">
+                                                                <strong>IP</strong>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="ip in ips track by $index">
+                                                            <td>
+                                                                <a href="#" ng-bind="ip"></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <h4 class="text-left">Phone</h4>
+                                                <p class="text-left">
+                                                해당 안드로이드 어플리케이션 DEX(안드로이드 소스코드)에 포함된 
+                                                전화번호들의 목록을 나타낸 항목입니다. 
+                                                </p>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered table-invoice text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="width100">
+                                                                <strong>Phone</strong>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="phone in phones track by $index">
+                                                            <td>
+                                                                <a href="#" ng-bind="phone"></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h4 class="text-left">APK 권한</h4>
+                                                <p class="text-left">
+                                                해당 안드로이드 어플리케이션의 API이용 권한을 나타내 주는 항목입니다. 
+                                                </p>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered table-invoice text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="width100">
+                                                                <strong>Permission</strong>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="perm in permissions track by $index">
+                                                            <td>
+                                                                <a href="#" ng-bind="perm"></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h4 class="text-left">Domain</h4>
+                                                <p class="text-left">
+                                                해당 안드로이드 어플리케이션 DEX(안드로이드 소스코드)에 포함된 
+                                                URL 주소의 목록을 나타낸 항목입니다. 
+                                                </p>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered table-invoice text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <strong>Domain</strong>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="url in domain_url_list track by $index">
+                                                            <td>
+                                                                 <a href="#" ng-bind="url"></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Report</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portfolio Modal 3 -->
+    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2">
+                            <div class="modal-body">
+                                <!-- Project Details Go Here -->
+                                <h2>Project Name</h2>
+                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                <img class="img-responsive img-centered" src="img/portfolio/treehouse-preview.png" alt="">
+                                <p>Treehouse is a free PSD web template built by <a href="https://www.behance.net/MathavanJaya">Mathavan Jaya</a>. This is bright and spacious design perfect for people or startup companies looking to showcase their apps or other projects.</p>
+                                <p>You can download the PSD template in this portfolio sample item at <a href="http://freebiesxpress.com/gallery/treehouse-free-psd-web-template/">FreebiesXpress.com</a>.</p>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-filestyle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-treeview.js') }}"></script>
+    
+
+    <!-- Contact Form JavaScript -->
+    <script src="{{ url_for('static', filename='js/jqBootstrapValidation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/contact_me.js') }}"></script>
+
+    <!-- Theme JavaScript  --> 
+    <script src="{{ url_for('static', filename='js/agency.min.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.js"></script>
+    <script src="https://cdn.jsdelivr.net/angular.file-upload/12.2.13/ng-file-upload-all.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+    <!--<script src="{{ url_for('static', filename='js/highlight.pack.js') }}"></script>-->
+
+    
+    
+
+    <script type="text/javascript">
+
+    var codeview = document.querySelector('pre code');
+    hljs.initHighlightingOnLoad();
+    hljs.highlightBlock(codeview);
+
+
+    var app = angular.module('myApp', ['ngRoute','ngFileUpload']);
+    app.controller('myCtrl', ['$scope', '$http','Upload', function ($scope, $http, Upload) {
+
+        $scope.getData = function(){
+            console.log($scope.Casename);
+            if($scope.Casename != "Nothing")
+            {
+                $http({
+                    method: 'GET',
+                    url: '//localhost:30000/codenametable/' + $scope.Casename
+                }).success(function (recv, status, headers, config) {
+                    //console.log(data);
+                    var tree_data = new Array();
+                    for(var key1 in recv){
+                        grandparent = {'text' : new String(), 'nodes' : new Array(),'icon': "glyphicon glyphicon-stop"};
+                        grandparent['text'] = key1;
+
+                        for(var key2 in recv[key1]){
+                            parent = {'text' : new String(), 'nodes' : new Array(),'icon': "glyphicon glyphicon-stop"};
+                            parent['text'] = key2;
+
+                            for(var key3 in recv[key1][key2]){
+                                child = {'text' : new String(),'icon': "glyphicon glyphicon-stop",'selected' : true};
+                                child['text'] = recv[key1][key2][key3];
+                                parent['nodes'].push(child);
+                            }
+                            grandparent['nodes'].push(parent);
+                        }
+
+                        tree_data.push(grandparent);
+                    }
+
+                    $('#tree').treeview({data: tree_data});
+
+                    $('#tree').on('nodeSelected', function(event, data) {
+
+                        if(data['text'].indexOf(".class") !=-1)
+                        {
+                            var classfile_name = data['text'];
+                            var package_node = $("#tree").treeview('getParent', data);
+
+                            var package_name = package_node['text'];
+                            var dex_name = $("#tree").treeview('getParent', package_node)['text'];
+
+                            var query_url = '//localhost:30000/code/' + dex_name + '/' + package_name + '/' + classfile_name;
+
+                            $http({
+                                method: 'GET',
+                                url: query_url
+                            }).success(function (data, status, headers, config) {
+                                for(key in data) {
+                                    $scope.CodeString = data[key];
+                                }
+                                    // 성공! 데이터를 가져왔어
+                            }).error(function (data, status, headers, config) {
+                                console.log(data);
+                                    // 이런. 뭔가 잘못되었음! :(
+                            });
+                        }
+                    });
+
+                        // 성공! 데이터를 가져왔어
+                }).error(function (recv, status, headers, config) {
+                    console.log(recv);
+                        // 이런. 뭔가 잘못되었음! :(
+                });
+            }
+        };
+
+        $scope.GetArtifact = function(){
+            if($scope.Casename != "Nothing")
+            {
+                $scope.req_url = $scope.Casename;
+                $http({
+                    method: 'GET',
+                    url: '//localhost:30000/artifact/' + $scope.req_url
+                }).success(function (data, status, headers, config) {
+                    $scope.apkname = data['apkname'];
+                    $scope.apksize = data['apksize'];
+                    $scope.md5 = data['md5'];
+                    $scope.sha1 = data['sha1'];
+                    $scope.case_name = data['casename'][0];
+                    $scope.permissions = data['permission'];
+                    $scope.domain_url_list = data['domain'];
+                    $scope.emails = data['email'];
+                    $scope.phones = data['phone'];
+                    $scope.ips = data['ip'];
+                        // 성공! 데이터를 가져왔어
+                }).error(function (data, status, headers, config) {
+                    console.log(data);
+                        // 이런. 뭔가 잘못되었음! :(
+                });
+            }
+        };
+
+
+        /*
+        $scope.$watch('Casename', function () {
+            if($scope.Casename != "Nothing")
+            {
+                $scope.req_url = $scope.Casename;
+                $http({
+                    method: 'GET',
+                    url: '//localhost:30000/artifact/' + $scope.req_url
+                }).success(function (data, status, headers, config) {
+                    $scope.apkname = data['apkname'];
+                    $scope.apksize = data['apksize'];
+                    $scope.md5 = data['md5'];
+                    $scope.sha1 = data['sha1'];
+                    $scope.case_name = data['casename'][0];
+                    $scope.permissions = data['permission'];
+                    $scope.domain_url_list = data['domain'];
+                    $scope.emails = data['email'];
+                    $scope.phones = data['phone'];
+                    $scope.ips = data['ip'];
+                        // 성공! 데이터를 가져왔어
+                }).error(function (data, status, headers, config) {
+                    console.log(data);
+                        // 이런. 뭔가 잘못되었음! :(
+                });
+            }
+        });*/
+
+
+    }]);
+</script>  
+
+</body>
+
+</html>

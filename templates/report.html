@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rezeroid</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+    <style>
+        @import url(http://fonts.googleapis.com/css?family=Roboto);
+
+        /****** LOGIN MODAL ******/
+        .loginmodal-container {
+          padding: 30px;
+          max-width: 350px;
+          width: 100% !important;
+          background-color: #F7F7F7;
+          margin: 0 auto;
+          border-radius: 2px;
+          box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+          overflow: hidden;
+          font-family: roboto;
+        }
+
+        .loginmodal-container h1 {
+          text-align: center;
+          font-size: 1.8em;
+          font-family: roboto;
+        }
+
+        .loginmodal-container input[type=submit] {
+          width: 100%;
+          display: block;
+          margin-bottom: 10px;
+          position: relative;
+        }
+
+        .loginmodal-container input[type=text], input[type=password] {
+          height: 44px;
+          font-size: 16px;
+          width: 100%;
+          margin-bottom: 10px;
+          -webkit-appearance: none;
+          background: #fff;
+          border: 1px solid #d9d9d9;
+          border-top: 1px solid #c0c0c0;
+          /* border-radius: 2px; */
+          padding: 0 8px;
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+        }
+
+        .loginmodal-container input[type=text]:hover, input[type=password]:hover {
+          border: 1px solid #b9b9b9;
+          border-top: 1px solid #a0a0a0;
+          -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+          -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+          box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .loginmodal {
+          text-align: center;
+          font-size: 14px;
+          font-family: 'Arial', sans-serif;
+          font-weight: 700;
+          height: 36px;
+          padding: 0 8px;
+        /* border-radius: 3px; */
+        /* -webkit-user-select: none;
+          user-select: none; */
+        }
+
+        .loginmodal-submit {
+          /* border: 1px solid #3079ed; */
+          border: 0px;
+          color: #fff;
+          text-shadow: 0 1px rgba(0,0,0,0.1); 
+          background-color: #4d90fe;
+          padding: 17px 0px;
+          font-family: roboto;
+          font-size: 14px;
+          /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#4787ed)); */
+        }
+
+        .loginmodal-submit:hover {
+          /* border: 1px solid #2f5bb7; */
+          border: 0px;
+          text-shadow: 0 1px rgba(0,0,0,0.3);
+          background-color: #357ae8;
+          /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#357ae8)); */
+        }
+
+        .loginmodal-container a {
+          text-decoration: none;
+          color: #666;
+          font-weight: 400;
+          text-align: center;
+          display: inline-block;
+          opacity: 0.6;
+          transition: opacity ease 0.5s;
+        } 
+
+        .login-help{
+          font-size: 12px;
+        }   
+      #main-menu {
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border: 0;
+        border-radius: 0;
+        margin-bottom: 0;
+        background-color: #59d0ff;
+      }
+      header{
+          color:#ffffff;
+      }
+      .nav.navbar-nav.navbar-right li a{
+          color:#ffffff;
+      }
+      #service-description{
+          background-color: #8844ff;
+      }
+
+      .bg-1 {
+        background-color: #1abc9c; /* Green */
+        color: #ffffff;
+      }
+      .bg-2 {
+          background-color: #474e5d; /* Dark Blue */
+          color: #ffffff;
+      }
+
+    </style>
+
+ 
+</head>
+<body>
+  
+<header>
+    <nav id="main-menu" class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Rezeroid</a>
+        </div>
+        <div class="collapse navbar-collapse" id="Navbar">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">contact us </a></li>
+            {% if 'userid' in session %}
+            <li><a href="{{url_for('logout')}}">logout</a></li>
+            <li><a href="/history">history(login only)</a></li>
+            {% else %}
+            <li><a data-toggle="modal" href="#login-modal">login</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+</header>
+<div ng-app="myApp" ng-controller="myCtrl" ng-init="Casename='{{ casename }}';" class="row-fluid" >
+    <div class="span12">
+        <div class="widget-title">
+            <span class="icon"><i class="icon-briefcase"></i></span>
+            <h5>INFORMATION</h5>
+        </div>
+        <div class="widget-content">
+            <div class="row-fluid">
+                <div class="span6">
+                    <table class="">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <h4 ng-bind="case_name"></h4> <!-- CASE NAME-->
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="span6">
+                    <table class="table table-bordered table-invoice">
+                        <tbody>
+                        <tr>
+                        </tr>
+                        <tr>
+                            <td class="width30">
+                                Research ID:
+                            </td>
+                            <td class="width70">
+                                <strong ng-bind="case_name"></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                FileName:
+                            </td>
+                            <td>
+                                <strong ng-bind="apkname"></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                FileSize:
+                            </td>
+                            <td>
+                                <strong ng-bind="apksize"></strong>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row-fluid">
+            <div class="span12">
+            <div class="row-fluid">
+                <div class="span4">
+                    <table class="table table-bordered table-invoice-full">
+                        <thead>
+                        <tr>
+                            <th>
+                                Value
+                            </th>
+                            <th>
+                                Hash
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td ng-bind="md5">
+                            </td>
+                            <td>
+                                MD5
+                            </td>
+                        </tr>
+                        <tr>
+                            <td ng-bind="sha1">
+                            </td>
+                            <td>
+                                SHA-1
+                            </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                </div>
+                </div>
+                <div class="span4">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>
+                                permission
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="perm in permissions track by $index">
+                            <td>
+                                <a href="#" ng-bind="perm"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="span4">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>
+                                domain
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="url in domain_url_list track by $index">
+                            <td>
+                                <a href="#" ng-bind="url"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+               <div class="span4">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>
+                                email
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="email in emails track by $index">
+                            <td>
+                                <a href="#" ng-bind="email"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="span4">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>
+                                ip
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="ip in ips track by $index">
+                            <td>
+                                <a href="#" ng-bind="ip"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="span4">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>
+                                phone
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="phone in phones track by $index">
+                            <td>
+                                <a href="#" ng-bind="phone"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>                        
+            </div>
+        </div>
+    </div>
+</div>
+    <hr>
+    <div class="widget-box">
+        <div class="widget-title">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#tab1">[android.support]</a></li>
+                <li class=""><a data-toggle="tab" href="#tab2">[com.android.tools]</a></li>
+                <li class=""><a data-toggle="tab" href="#tab3">[com.real.chaosdragon.asaratta]</a></li>
+            </ul>
+        </div>
+        <div class="widget-content tab-content">
+            <div id="tab1" class="tab-pane active">
+                <div class="row-fluid">
+                    <div class="widget-box collapsible">
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse1" class="collapsed"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> main.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse1" class="collapse" style="height: 0px;">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse2" class="collapsed"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> kkkk.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse2" class="collapse" style="height: 0px;">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse3" class="collapsed"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> kkkk.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse3" class="collapse" style="height: 0px;">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse4"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> setp.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse4" class="collapse">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse5"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> setp.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse5" class="collapse">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab2" class="tab-pane">
+                <div class="row-fluid">
+                    <div class="widget-box collapsible">
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse6" class="collapsed"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> main.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse6" class="collapse" style="height: 0px;">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse7" class="collapsed"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> kkkk.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse7" class="collapse" style="height: 0px;">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse8" class="collapsed"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> kkkk.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse8" class="collapse" style="height: 0px;">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse9"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> setp.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse9" class="collapse">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse10"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> setp.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse10" class="collapse">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab3" class="tab-pane">
+                <div class="row-fluid">
+                    <div class="widget-box collapsible">
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse11" class="collapsed"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> BuildConfig.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse11" class="collapse" style="height: 0px;">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse12" class="collapsed"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> MainActivity.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse12" class="collapse" style="height: 0px;">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse13" class="collapsed"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> R.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse13" class="collapse" style="height: 0px;">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse14"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> Starter.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse14" class="collapse">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse15"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> fileinfo.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse15" class="collapse">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse16"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> filewipe.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse16" class="collapse">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                        <div class="widget-title">
+                            <a data-toggle="collapse" href="#collapse17"><span class="icon"><i class="icon-arrow-right"></i></span>
+                                <h5> makedir.java</h5>
+                            </a>
+                        </div>
+                        <div id="collapse17" class="collapse">
+                            <div class="widget-content">
+                                stria source code
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', ['$scope', '$http', function ($scope, $http) {
+
+
+        $scope.$watch('Casename', function () {
+            $scope.req_url = $scope.Casename;
+            $http({
+                method: 'GET',
+                url: '//semtax.iptime.org:30000/artifact/' + $scope.req_url
+            }).success(function (data, status, headers, config) {
+                $scope.apkname = data['apkname'];
+                $scope.apksize = data['apksize'];
+                $scope.md5 = data['md5'];
+                $scope.sha1 = data['sha1'];
+                $scope.case_name = data['casename'][0];
+
+                $scope.permissions = data['permission'];
+                $scope.domain_url_list = data['domain'];
+                $scope.emails = data['email'];
+                $scope.phones = data['phone'];
+                $scope.ips = data['ip'];
+                console.log(data);
+                    // 성공! 데이터를 가져왔어
+            }).error(function (data, status, headers, config) {
+                console.log(data);
+                    // 이런. 뭔가 잘못되었음! :(
+            });
+        });
+
+
+    }]);
+</script>   
+
+</body>
+</html>
+
+
+

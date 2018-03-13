@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rezeroid</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<style>
+		@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+		/****** LOGIN MODAL ******/
+		.loginmodal-container {
+		  padding: 30px;
+		  max-width: 350px;
+		  width: 100% !important;
+		  background-color: #F7F7F7;
+		  margin: 0 auto;
+		  border-radius: 2px;
+		  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+		  overflow: hidden;
+		  font-family: roboto;
+		}
+
+		.loginmodal-container h1 {
+		  text-align: center;
+		  font-size: 1.8em;
+		  font-family: roboto;
+		}
+
+		.loginmodal-container input[type=submit] {
+		  width: 100%;
+		  display: block;
+		  margin-bottom: 10px;
+		  position: relative;
+		}
+
+		.loginmodal-container input[type=text], input[type=password] {
+		  height: 44px;
+		  font-size: 16px;
+		  width: 100%;
+		  margin-bottom: 10px;
+		  -webkit-appearance: none;
+		  background: #fff;
+		  border: 1px solid #d9d9d9;
+		  border-top: 1px solid #c0c0c0;
+		  /* border-radius: 2px; */
+		  padding: 0 8px;
+		  box-sizing: border-box;
+		  -moz-box-sizing: border-box;
+		}
+
+		.loginmodal-container input[type=text]:hover, input[type=password]:hover {
+		  border: 1px solid #b9b9b9;
+		  border-top: 1px solid #a0a0a0;
+		  -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+		  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+		  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+		}
+
+		.loginmodal {
+		  text-align: center;
+		  font-size: 14px;
+		  font-family: 'Arial', sans-serif;
+		  font-weight: 700;
+		  height: 36px;
+		  padding: 0 8px;
+		/* border-radius: 3px; */
+		/* -webkit-user-select: none;
+		  user-select: none; */
+		}
+
+		.loginmodal-submit {
+		  /* border: 1px solid #3079ed; */
+		  border: 0px;
+		  color: #fff;
+		  text-shadow: 0 1px rgba(0,0,0,0.1); 
+		  background-color: #4d90fe;
+		  padding: 17px 0px;
+		  font-family: roboto;
+		  font-size: 14px;
+		  /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#4787ed)); */
+		}
+
+		.loginmodal-submit:hover {
+		  /* border: 1px solid #2f5bb7; */
+		  border: 0px;
+		  text-shadow: 0 1px rgba(0,0,0,0.3);
+		  background-color: #357ae8;
+		  /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#357ae8)); */
+		}
+
+		.loginmodal-container a {
+		  text-decoration: none;
+		  color: #666;
+		  font-weight: 400;
+		  text-align: center;
+		  display: inline-block;
+		  opacity: 0.6;
+		  transition: opacity ease 0.5s;
+		} 
+
+		.login-help{
+		  font-size: 12px;
+		}	
+	  #main-menu {
+	    padding-top: 15px;
+	    padding-bottom: 15px;
+	    border: 0;
+	    border-radius: 0;
+	    margin-bottom: 0;
+	    background-color: #59d0ff;
+	  }
+	  header{
+	      color:#ffffff;
+	  }
+	  .nav.navbar-nav.navbar-right li a{
+	  	  color:#ffffff;
+	  }
+	  #service-description{
+	      background-color: #8844ff;
+	  }
+
+	  .bg-1 {
+	  	background-color: #1abc9c; /* Green */
+	  	color: #ffffff;
+	  }
+	  .bg-2 {
+	      background-color: #474e5d; /* Dark Blue */
+	      color: #ffffff;
+	  }
+
+		.modal-content {
+			-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+			border: 0;
+			text-align: left;
+		}
+
+		.modal-header {
+			padding: 25px 25px 15px 25px;
+			background: #fff;
+			border: 0;
+			border-bottom: 1px solid #ddd;
+			-moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0;
+		}
+
+		.modal-header .close {
+			font-size: 36px;
+			color: #888;
+			font-weight: 300;
+			text-shadow: none;
+			opacity: 1;
+		}
+
+		.modal-title {
+			margin-bottom: 10px;
+			line-height: 30px;
+		}
+
+		.modal-body {
+			padding: 25px 25px 30px 25px;
+			background: #eee;
+			text-align: left;
+			-moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px;
+		}
+
+		.modal-body img {
+			margin-bottom: 15px;
+		}
+
+		.modal-body form textarea {
+			height: 100px;
+		}
+
+		.modal-body form .input-error {
+			border-color: #fd625e;
+		}
+
+
+	</style>
+</head>
+<body>
+  
+<header>
+	<nav id="main-menu" class="navbar navbar-default">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="/">Rezeroid</a>
+	    </div>
+	    <div class="collapse navbar-collapse" id="Navbar">
+	      <ul class="nav navbar-nav navbar-right">
+	        <li><a href="#">contact us </a></li>
+	        {% if 'userid' in session %}
+	        <li><a href="{{url_for('logout')}}">logout</a></li>
+	        <li><a href="/history">history(login only)</a></li>
+	        {% else %}
+	        <li><a data-toggle="modal" href="#login-modal">login</a></li>
+	        <li><a data-toggle="modal" href="#modal-register">Register</a></li>
+	        {% endif %}
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+</header>
+
+<section class="container-fluid bg-1 text-center">
+	<section class="row">
+	    <section id="service-description" class="col-xs-6 bg-1">
+			<h1 class="margin">Android Deobfuscator Platform {{session['userid']}}</h3>
+			<h3 class="margin">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</h3>
+	    </section>
+	    <section class="col-xs-6 bg-1">
+			<form name="form" action="{{url_for('upload')}}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+				<div class="form-group">
+					<div class="col-sm-10">
+						<input type="file" class="form-control" id="file" name="file">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">Upload</button>
+					</div>
+				</div>
+			</form>
+	    </section>
+	</section>
+</section>
+
+<section class="container-fluid bg-2 text-center">
+  <h3 class="margin">Code View Section </h3>
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+</section>
+
+<footer class="container-fluid text-center">
+  <p>Footer Text</p>
+</footer>
+
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+		<div class="loginmodal-container">
+			<h1>Login to Your Account</h1><br>
+			<form action="{{url_for('login')}}" method="POST">
+				<input type="text" name="userid" placeholder="Username">
+				<input type="password" name="userpass" placeholder="Password">
+				<input type="submit" name="login" class="login loginmodal-submit" value="Login">
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+				<h3 class="modal-title" id="modal-register-label">Sign up now</h3>
+				<p>Fill in the form below to get instant access:</p>
+			</div>
+			<div class="modal-body">
+                <form action="{{ url_for('register') }}" method="POST" class="registration-form">
+                    <div class="form-group">
+                    	<label class="sr-only" for="form-email">Email</label>
+                    	<input type="text" name="userid" placeholder="Email..." class="form-email form-control" id="form-email">
+                    </div>
+                    <div class="form-group">
+                    	<label class="sr-only" for="form-last-name">Password</label>
+                    	<input type="password" name="userpass" placeholder="Last name..." class="form-last-name form-control" id="form-last-name">
+                    </div>
+                    <button type="submit" class="btn">Sign me up!</button>
+                </form>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
+

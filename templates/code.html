@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Rezeroid - Android Deobfuscation service</title>
+
+    <!-- Bootstrap Core CSS --> 
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Theme CSS -->
+    <link href="{{ url_for('static', filename='css/agency.css') }}" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+{% if 'casename' in session %}
+<body ng-app="myApp" ng-controller="myCtrl" id="page-top" class="index" ng-init="Casename='{{ session['casename'] }}';">
+{% else %}
+<body ng-app="myApp" ng-controller="myCtrl" id="page-top" class="index" ng-init="Casename='Nothing';">
+{% endif %}
+    <!-- Navigation -->
+    <nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Rezeroid</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#introduction">Introduction</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#portfolio">Services</a>
+                    </li>
+                    {% if 'userid' in session %}
+                    <li><a class="page-scroll" href="{{url_for('logout')}}">logout</a></li>
+                    {% else %}
+                    <li>
+                        <a class="page-scroll" href="#login">Login</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#register">Register</a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <a class="page-scroll" href="#team">Team</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <div id="tree">
+    </div>
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-filestyle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-treeview.js') }}"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="{{ url_for('static', filename='js/jqBootstrapValidation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/contact_me.js') }}"></script>
+
+    <!-- Theme JavaScript  --> 
+    <script src="{{ url_for('static', filename='js/agency.min.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.js"></script>
+    <script src="https://cdn.jsdelivr.net/angular.file-upload/12.2.13/ng-file-upload-all.js"></script>
+
+    
+    
+
+    <script type="text/javascript">
+
+        var app = angular.module('myApp', ['ngRoute','ngFileUpload']);
+        app.controller('myCtrl', ['$scope', '$http','Upload', function ($scope, $http, Upload) {
+
+            $scope.$watch('Casename', function () {
+                console.log($scope.Casename);
+                if($scope.Casename != "Nothing")
+                {
+                    $scope.req_url = $scope.Casename;
+                    console.log($scope.req_url);
+                    $http({
+                        method: 'GET',
+                        url: '//semtax.iptime.org:30000/codenametable/' + $scope.req_url
+                    }).success(function (data, status, headers, config) {
+                        console.log(data)
+                            // 성공! 데이터를 가져왔어
+                    }).error(function (data, status, headers, config) {
+                        console.log(data);
+                            // 이런. 뭔가 잘못되었음! :(
+                    });
+                }
+            });
+
+        }]);
+
+        /*
+        function getTree() {
+          // Some logic to retrieve, or generate tree structure
+          return data;
+        }
+
+        $('#tree').treeview({data: getTree()});
+        */
+    </script>  
+
+</body>
+
+</html>
